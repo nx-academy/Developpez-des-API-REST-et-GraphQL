@@ -1,0 +1,11 @@
+{
+  "name": "developpez-des-api-rest-et-graphql",
+  "version": "0.0.1",
+  "description": "Code source du Bookmark! - Le projet fil rouge du cours 'Developpez des API REST et GraphQL'",
+  "main": "dist/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "thomas.dimnet@gmail.com",
+  "license": "ISC"
+}
