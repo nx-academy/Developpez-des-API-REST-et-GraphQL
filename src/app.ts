@@ -1,6 +1,9 @@
-function main(): void {
-  console.log("Hello, Thomas!")
+function sayHi() {
+  const me = 'Thomas'
 }
 
-main()
+function main(): void {
+  console.log("Hello, World!");
+}
 
+main();
