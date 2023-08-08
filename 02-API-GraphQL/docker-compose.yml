@@ -1,7 +1,7 @@
 version: "3"
 
 services:
-  rest-api:
+  graphql-api:
     build: .
     stdin_open: true
     tty: true
