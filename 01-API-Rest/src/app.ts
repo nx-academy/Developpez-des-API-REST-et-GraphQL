@@ -1,5 +1,7 @@
 import express, { Request, Response } from 'express'
+
 import { myDataSource } from './app-data-source'
+import bookmarkRoutes from './routes/bookmark.routes'
 
 
 myDataSource
@@ -11,50 +13,15 @@ myDataSource
 const app = express()
 const port = 3000
 
+app.use(express.json())
+
+
 app.get('/', (req, res) => {
   res.send('Hello, World!')
 })
 
 
-app.get('/bookmarks', (req: Request, res: Response) => {
-  console.log('Get all bookmarks')
-
-  res.json({
-    data: 'Get all bookmarks'
-  })
-})
-
-app.get('/bookmarks/:id', (req: Request, res: Response) => {
-  console.log('Get one bookmark')
-
-  res.json({
-    data: 'Get one bookmark'
-  })
-})
-
-app.post('/bookmarks', (req: Request, res: Response) => {
-  console.log('Create one bookmark')
-
-  res.json({
-    data: 'Create one bookmark'
-  })
-})
-
-app.put('/bookmarks', (req: Request, res: Response) => {
-  console.log('Update one bookmark')
-
-  res.json({
-    data: 'Update one bookmark'
-  })
-})
-
-app.delete('/bookmarks', (req: Request, res: Response) => {
-  console.log('Delete one bookmark')
-
-  res.json({
-    data: 'Delete one bookmark'
-  })
-})
+app.use("/bookmarks", bookmarkRoutes)
 
 
 app.listen(port, () => {
