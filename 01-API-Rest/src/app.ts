@@ -1,4 +1,12 @@
 import express from 'express'
+import { myDataSource } from './app-data-source'
+
+
+myDataSource
+  .initialize()
+  .then(() => console.log('Database connected'))
+  .catch(err => console.log('Failed to connect to database', err))
+
 
 const app = express()
 const port = 3000
