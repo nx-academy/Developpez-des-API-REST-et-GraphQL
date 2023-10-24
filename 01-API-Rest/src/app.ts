@@ -1,9 +1,12 @@
-function sayHi() {
-  const me = 'Thomas'
-}
+import express from 'express'
 
-function main(): void {
-  console.log("Hello, World!");
-}
+const app = express()
+const port = 3000
 
-main();
+app.get('/', (req, res) => {
+  res.send('Hello, World!')
+})
+
+app.listen(port, () => {
+  console.log(`App is running on port ${port}`)
+})

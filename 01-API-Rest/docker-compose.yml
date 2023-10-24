@@ -3,7 +3,25 @@ version: "3"
 services:
   rest-api:
     build: .
+    depends_on:
+      - database
+      - adminer
     stdin_open: true
     tty: true
+    ports:
+      - 3000:3000
     volumes:
       - ./:/api-rest
+
+  database:
+    image: mariadb
+    environment:
+      - MARIADB_ROOT_PASSWORD=toto90
+      - MARIADB_USER=admin
+      - MARIADB_PASSWORD=toto90
+      - MARIADB_DATABASE=bookmark_db
+
+  adminer:
+    image: adminer
+    ports:
+      - 8080:8080
