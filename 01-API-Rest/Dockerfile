@@ -1,5 +1,7 @@
 FROM node:18.16-buster-slim
 
-WORKDIR /api
+RUN apt-get update && apt-get install procps -y
+
+WORKDIR /api-rest
 COPY . .
 
