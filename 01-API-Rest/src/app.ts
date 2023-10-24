@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express'
 
-import { myDataSource } from './app-data-source'
+import { myDataSource } from './config/dataSource'
 import bookmarkRoutes from './routes/bookmark.routes'
 
 

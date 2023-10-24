@@ -1,5 +1,5 @@
 import { DataSource } from 'typeorm'
-import { Bookmark } from './entity/bookmark.entity'
+import { Bookmark } from '../entity/bookmark.entity'
 
 export const myDataSource = new DataSource({
     type: 'mariadb',
