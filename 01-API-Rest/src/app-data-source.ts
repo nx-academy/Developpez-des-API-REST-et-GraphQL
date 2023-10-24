@@ -9,7 +9,6 @@ export const myDataSource = new DataSource({
     password: 'toto90',
     database: 'bookmark_db',
     entities: [Bookmark],
-    logging: true,
     synchronize: true
 })
 
