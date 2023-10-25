@@ -5,7 +5,7 @@ import { Bookmark } from '../entity/bookmark.entity'
 
 const dbConfig = getConfig()
 
-export const myDataSource = new DataSource({
+export const dataSource = new DataSource({
     type: dbConfig.type,
     host: dbConfig.host,
     port: dbConfig.port,

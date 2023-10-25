@@ -1,10 +1,10 @@
-import express, { Request, Response } from 'express'
+import express from 'express'
 
-import { myDataSource } from './config/dataSource'
+import { dataSource } from './config/dataSource'
 import bookmarkRoutes from './routes/bookmark.routes'
 
 
-myDataSource
+dataSource
   .initialize()
   .then(() => console.log('Database connected'))
   .catch(err => console.log('Failed to connect to database', err))
