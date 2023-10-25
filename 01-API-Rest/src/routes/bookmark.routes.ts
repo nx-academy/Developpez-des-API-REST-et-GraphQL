@@ -37,12 +37,24 @@ router.post("/", async (req: Request, res: Response) => {
   });
 });
 
-router.put("/", (req: Request, res: Response) => {
-  console.log("Update one bookmark");
+router.put("/:id", async (req: Request, res: Response) => {
+  const bookmarkId = Number(req.params.id)
+  const newBookmarkName = req.body.name as string
+
+  const bookmark = await dataSource.getRepository(Bookmark).findOneBy({
+    id: bookmarkId
+  })
+
+  let data = null
+
+  if (bookmark) {
+    dataSource.getRepository(Bookmark).merge(bookmark, { name: newBookmarkName })
+    data = await dataSource.getRepository(Bookmark).save(bookmark)
+  }
 
   res.json({
-    data: "Update one bookmark",
-  });
+    data: data
+  })
 });
 
 router.delete("/", (req: Request, res: Response) => {
