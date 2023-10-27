@@ -1,7 +1,9 @@
 import express, { Request, Response } from "express";
+import Joi from "joi";
 
 import { dataSource } from '../config/dataSource'
 import { Bookmark } from '../entity/bookmark.entity'
+
 
 const router = express.Router();
 
@@ -25,16 +27,36 @@ router.get("/:id", async (req: Request, res: Response) => {
 });
 
 router.post("/", async (req: Request, res: Response) => {
-  const name = req.body.name as string
+  const data = req.body
 
-  const bookmark = await dataSource.getRepository(Bookmark).create({
-    name: name
+  const schema = Joi.object().keys({
+    name: Joi.string().required()
   })
-  const results = await dataSource.getRepository(Bookmark).save(bookmark)
 
-  res.json({
-    data: results,
-  });
+  const isValid = schema.validate(data)
+
+  console.log("=====")
+  console.log(data)
+  console.log("=====")
+  console.log(isValid)
+  console.log("=====")
+
+  if (isValid.error) {
+    res.send(isValid.error.message)
+  } else {
+    res.send("foo")
+  }
+  
+  // const name = req.body.name as string
+
+  // const bookmark = await dataSource.getRepository(Bookmark).create({
+  //   name: name
+  // })
+  // const results = await dataSource.getRepository(Bookmark).save(bookmark)
+
+  // res.json({
+  //   data: results,
+  // });
 });
 
 router.put("/:id", async (req: Request, res: Response) => {
