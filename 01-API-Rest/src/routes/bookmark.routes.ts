@@ -16,14 +16,23 @@ router.get("/", async (req: Request, res: Response) => {
 });
 
 router.get("/:id", async (req: Request, res: Response) => {
-  const id = Number(req.params.id)
+  const { id } = req.params
 
-  const bookmark = await dataSource.getRepository(Bookmark).findOneBy({ id })
+  const schema = Joi.number().required()
 
+  const isValid = schema.validate(id)
 
-  res.json({
-    data: bookmark,
-  });
+  if (isValid.error) {
+    res.status(400).json({
+      message: isValid.error.message
+    })
+  } else {
+    const bookmark = await dataSource.getRepository(Bookmark).findOneBy({ id : Number(id) })
+
+    res.json({
+      data: bookmark,
+    });
+  }
 });
 
 router.post("/", async (req: Request, res: Response) => {
