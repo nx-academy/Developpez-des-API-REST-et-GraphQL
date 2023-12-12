@@ -7,4 +7,10 @@ export class Bookmark {
 
     @Column()
     name: string
+
+    @Column()
+    description: string
+    
+    @Column()
+    url: string
 }

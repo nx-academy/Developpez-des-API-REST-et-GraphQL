@@ -30,33 +30,36 @@ router.post("/", async (req: Request, res: Response) => {
   const data = req.body
 
   const schema = Joi.object().keys({
-    name: Joi.string().required()
+    name: Joi.string().required(),
+    description: Joi.string().required(),
+    url: Joi.string().required()
   })
 
   const isValid = schema.validate(data)
 
-  console.log("=====")
-  console.log(data)
-  console.log("=====")
-  console.log(isValid)
-  console.log("=====")
-
   if (isValid.error) {
-    res.send(isValid.error.message)
+    res
+      .status(400)
+      .json({
+        message: isValid.error.message
+      })
   } else {
-    res.send("foo")
-  }
+    const name = data.name as string
+    const description = data.description as string
+    const url = data.url as string
   
-  // const name = req.body.name as string
-
-  // const bookmark = await dataSource.getRepository(Bookmark).create({
-  //   name: name
-  // })
-  // const results = await dataSource.getRepository(Bookmark).save(bookmark)
-
-  // res.json({
-  //   data: results,
-  // });
+    const bookmark = await dataSource.getRepository(Bookmark).create({
+      name,
+      description,
+      url
+    })
+  
+    const affectedRows = await dataSource.getRepository(Bookmark).save(bookmark)
+  
+    res.json({
+      data: affectedRows,
+    });
+  }
 });
 
 router.put("/:id", async (req: Request, res: Response) => {
