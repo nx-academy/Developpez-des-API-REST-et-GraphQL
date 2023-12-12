@@ -1,33 +1,34 @@
 import express, { Request, Response } from "express";
 import Joi from "joi";
 
-import { dataSource } from '../config/dataSource'
-import { Bookmark } from '../entity/bookmark.entity'
-
+import { dataSource } from "../config/dataSource";
+import { Bookmark } from "../entity/bookmark.entity";
 
 const router = express.Router();
 
 router.get("/", async (req: Request, res: Response) => {
-  const bookmarks = await dataSource.getRepository(Bookmark).find()
+  const bookmarks = await dataSource.getRepository(Bookmark).find();
 
   res.json({
-    data: bookmarks
+    data: bookmarks,
   });
 });
 
 router.get("/:id", async (req: Request, res: Response) => {
-  const { id } = req.params
+  const { id } = req.params;
 
-  const schema = Joi.number().required()
+  const schema = Joi.number().required();
 
-  const isValid = schema.validate(id)
+  const isValid = schema.validate(id);
 
   if (isValid.error) {
     res.status(400).json({
-      message: isValid.error.message
-    })
+      message: isValid.error.message,
+    });
   } else {
-    const bookmark = await dataSource.getRepository(Bookmark).findOneBy({ id : Number(id) })
+    const bookmark = await dataSource
+      .getRepository(Bookmark)
+      .findOneBy({ id: Number(id) });
 
     res.json({
       data: bookmark,
@@ -36,35 +37,35 @@ router.get("/:id", async (req: Request, res: Response) => {
 });
 
 router.post("/", async (req: Request, res: Response) => {
-  const data = req.body
+  const data = req.body;
 
   const schema = Joi.object().keys({
     name: Joi.string().required(),
     description: Joi.string().required(),
-    url: Joi.string().required()
-  })
+    url: Joi.string().required(),
+  });
 
-  const isValid = schema.validate(data)
+  const isValid = schema.validate(data);
 
   if (isValid.error) {
-    res
-      .status(400)
-      .json({
-        message: isValid.error.message
-      })
+    res.status(400).json({
+      message: isValid.error.message,
+    });
   } else {
-    const name = data.name as string
-    const description = data.description as string
-    const url = data.url as string
-  
+    const name = data.name as string;
+    const description = data.description as string;
+    const url = data.url as string;
+
     const bookmark = await dataSource.getRepository(Bookmark).create({
       name,
       description,
-      url
-    })
-  
-    const affectedRows = await dataSource.getRepository(Bookmark).save(bookmark)
-  
+      url,
+    });
+
+    const affectedRows = await dataSource
+      .getRepository(Bookmark)
+      .save(bookmark);
+
     res.json({
       data: affectedRows,
     });
@@ -72,23 +73,25 @@ router.post("/", async (req: Request, res: Response) => {
 });
 
 router.put("/:id", async (req: Request, res: Response) => {
-  const bookmarkId = Number(req.params.id)
-  const newBookmarkName = req.body.name as string
+  const bookmarkId = Number(req.params.id);
+  const newBookmarkName = req.body.name as string;
 
   const bookmark = await dataSource.getRepository(Bookmark).findOneBy({
-    id: bookmarkId
-  })
+    id: bookmarkId,
+  });
 
-  let data = null
+  let data = null;
 
   if (bookmark) {
-    dataSource.getRepository(Bookmark).merge(bookmark, { name: newBookmarkName })
-    data = await dataSource.getRepository(Bookmark).save(bookmark)
+    dataSource
+      .getRepository(Bookmark)
+      .merge(bookmark, { name: newBookmarkName });
+    data = await dataSource.getRepository(Bookmark).save(bookmark);
   }
 
   res.json({
-    data: data
-  })
+    data: data,
+  });
 });
 
 router.delete("/", (req: Request, res: Response) => {
@@ -99,4 +102,4 @@ router.delete("/", (req: Request, res: Response) => {
   });
 });
 
-export default router
+export default router;
