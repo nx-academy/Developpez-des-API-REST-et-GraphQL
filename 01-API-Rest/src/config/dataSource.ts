@@ -2,6 +2,7 @@ import { DataSource } from 'typeorm'
 
 import getConfig from './dbConfig'
 import { Bookmark } from '../entity/bookmark.entity'
+import { User } from "../entity/user.entity"
 
 const dbConfig = getConfig()
 
@@ -12,7 +13,7 @@ export const dataSource = new DataSource({
     username: dbConfig.username,
     password: dbConfig.password,
     database: dbConfig.database,
-    entities: [Bookmark],
+    entities: [Bookmark, User],
     synchronize: true
 })
 

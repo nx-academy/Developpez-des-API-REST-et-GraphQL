@@ -2,6 +2,7 @@ import express from 'express'
 
 import { dataSource } from './config/dataSource'
 import bookmarkRoutes from './routes/bookmark.routes'
+import userRoutes from './routes/user.routes'
 
 
 dataSource
@@ -22,6 +23,7 @@ app.get('/', (req, res) => {
 
 
 app.use("/bookmarks", bookmarkRoutes)
+app.use("/users", userRoutes)
 
 
 app.listen(port, () => {
