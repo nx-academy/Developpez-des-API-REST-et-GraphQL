@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
 import Joi from "joi";
+import bcrypt from "bcrypt";
 
 import { dataSource } from "../config/dataSource";
 import { User } from "../entity/user.entity";
@@ -44,9 +45,11 @@ router.post("/", async (req: Request, res: Response) => {
     const name = data.name as string;
     const password = data.password as string;
 
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     const user = await dataSource.getRepository(User).create({
       name,
-      password,
+      password: hashedPassword,
     });
 
     const affectedRows = await dataSource.getRepository(User).save(user);
