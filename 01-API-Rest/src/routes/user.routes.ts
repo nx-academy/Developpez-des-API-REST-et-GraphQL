@@ -46,13 +46,14 @@ router.post("/", async (req: Request, res: Response) => {
     const password = data.password as string;
 
     const hashedPassword = await bcrypt.hash(password, 10);
+    const userRepository = dataSource.getRepository(User)
 
-    const user = await dataSource.getRepository(User).create({
+    const user = userRepository.create({
       name,
       password: hashedPassword,
     });
 
-    const affectedRows = await dataSource.getRepository(User).save(user);
+    const affectedRows = await userRepository.save(user);
 
     res.json({
       data: affectedRows,

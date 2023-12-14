@@ -1,8 +1,11 @@
 import express from "express";
 
 import { dataSource } from "./config/dataSource";
+
 import bookmarkRoutes from "./routes/bookmark.routes";
 import userRoutes from "./routes/user.routes";
+import loginRoutes from "./routes/login.routes";
+
 
 dataSource
   .initialize()
@@ -20,6 +23,7 @@ app.get("/", (req, res) => {
 
 app.use("/bookmarks", bookmarkRoutes);
 app.use("/users", userRoutes);
+app.use("/", loginRoutes)
 
 app.listen(port, () => {
   console.log(`App is running on port ${port}`);
