@@ -2,12 +2,14 @@ import express, { Request, Response } from "express";
 import Joi from "joi";
 import bcrypt from "bcrypt";
 
+import verifyTokenUtils from "../utils/verifyToken";
+
 import { dataSource } from "../config/dataSource";
 import { User } from "../entity/user.entity";
 
 const router = express.Router();
 
-router.get("/", async (req: Request, res: Response) => {
+router.get("/", verifyTokenUtils, async (req: Request, res: Response) => {
   const users = await dataSource.getRepository(User).find();
 
   res.json({
@@ -46,7 +48,7 @@ router.post("/", async (req: Request, res: Response) => {
     const password = data.password as string;
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const userRepository = dataSource.getRepository(User)
+    const userRepository = dataSource.getRepository(User);
 
     const user = userRepository.create({
       name,
