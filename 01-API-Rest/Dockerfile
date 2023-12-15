@@ -1,4 +1,4 @@
-FROM node:18.16-buster-slim
+FROM node:20.10-buster-slim
 
 RUN apt-get update && apt-get install procps -y
 
