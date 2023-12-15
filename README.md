@@ -8,4 +8,6 @@
 - https://auth0.com/blog/complete-guide-to-nodejs-express-user-authentication/
 - https://stackabuse.com/handling-authentication-in-express-js/
 - https://www.digitalocean.com/community/tutorials/nodejs-jwt-expressjs
+- https://blog.logrocket.com/configuring-nodemon-with-typescript/
+- https://stackoverflow.com/questions/62154016/docker-on-wsl2-very-slow
 
