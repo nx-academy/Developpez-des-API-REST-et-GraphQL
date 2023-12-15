@@ -2,6 +2,7 @@ import express, { Request, Response } from "express";
 import Joi from "joi";
 import bcrypt from "bcrypt";
 
+import { validateUser } from "../utils/validateSchema"
 import verifyTokenUtils from "../utils/verifyToken";
 
 import { dataSource } from "../config/dataSource";
@@ -17,7 +18,7 @@ router.get("/", verifyTokenUtils, async (req: Request, res: Response) => {
   });
 });
 
-router.get("/:id", async (req: Request, res: Response) => {
+router.get("/:id", validateUser, async (req: Request, res: Response) => {
   const { id } = req.params;
 
   const user = await dataSource.getRepository(User).findOneBy({
