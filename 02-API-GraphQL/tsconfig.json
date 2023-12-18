@@ -3,11 +3,11 @@
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
-    "module": "CommonJS",
+    "module": "NodeNext",
     "outDir": "dist",
     "strict": true,
     "strictPropertyInitialization": false,
-    "target": "ES2015"
+    "target": "ES2022"
   },
   "include": ["src"]
 }
