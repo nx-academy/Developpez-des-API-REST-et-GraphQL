@@ -2,7 +2,7 @@ import express, { Request, Response } from "express";
 import Joi from "joi";
 import bcrypt from "bcrypt";
 
-import { validateUser } from "../utils/validateSchema"
+import { validateUser } from "../utils/validateSchema";
 import verifyTokenUtils from "../utils/verifyToken";
 
 import { dataSource } from "../config/dataSource";

@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import Joi from "joi";
 
+import { validateBookmark } from "../utils/validateSchema";
 import { dataSource } from "../config/dataSource";
 import { Bookmark } from "../entity/bookmark.entity";
 
@@ -36,40 +37,24 @@ router.get("/:id", async (req: Request, res: Response) => {
   }
 });
 
-router.post("/", async (req: Request, res: Response) => {
+router.post("/", validateBookmark, async (req: Request, res: Response) => {
   const data = req.body;
 
-  const schema = Joi.object().keys({
-    name: Joi.string().required(),
-    description: Joi.string().required(),
-    url: Joi.string().required(),
+  const name = data.name as string;
+  const description = data.description as string;
+  const url = data.url as string;
+
+  const bookmark = await dataSource.getRepository(Bookmark).create({
+    name,
+    description,
+    url,
   });
 
-  const isValid = schema.validate(data);
+  const affectedRows = await dataSource.getRepository(Bookmark).save(bookmark);
 
-  if (isValid.error) {
-    res.status(400).json({
-      message: isValid.error.message,
-    });
-  } else {
-    const name = data.name as string;
-    const description = data.description as string;
-    const url = data.url as string;
-
-    const bookmark = await dataSource.getRepository(Bookmark).create({
-      name,
-      description,
-      url,
-    });
-
-    const affectedRows = await dataSource
-      .getRepository(Bookmark)
-      .save(bookmark);
-
-    res.json({
-      data: affectedRows,
-    });
-  }
+  res.json({
+    data: affectedRows,
+  });
 });
 
 router.put("/:id", async (req: Request, res: Response) => {
