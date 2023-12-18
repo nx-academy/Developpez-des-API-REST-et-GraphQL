@@ -18,7 +18,7 @@ router.get("/", verifyTokenUtils, async (req: Request, res: Response) => {
   });
 });
 
-router.get("/:id", validateUser, async (req: Request, res: Response) => {
+router.get("/:id", verifyTokenUtils, async (req: Request, res: Response) => {
   const { id } = req.params;
 
   const user = await dataSource.getRepository(User).findOneBy({
@@ -30,38 +30,25 @@ router.get("/:id", validateUser, async (req: Request, res: Response) => {
   });
 });
 
-router.post("/", async (req: Request, res: Response) => {
+router.post("/", validateUser, async (req: Request, res: Response) => {
   const data = req.body;
 
-  const schema = Joi.object().keys({
-    name: Joi.string().required(),
-    password: Joi.string().required(),
+  const name = data.name as string;
+  const password = data.password as string;
+
+  const hashedPassword = await bcrypt.hash(password, 10);
+  const userRepository = dataSource.getRepository(User);
+
+  const user = userRepository.create({
+    name,
+    password: hashedPassword,
   });
 
-  const isValid = schema.validate(data);
+  const affectedRows = await userRepository.save(user);
 
-  if (isValid.error) {
-    res.status(400).json({
-      message: isValid.error.message,
-    });
-  } else {
-    const name = data.name as string;
-    const password = data.password as string;
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const userRepository = dataSource.getRepository(User);
-
-    const user = userRepository.create({
-      name,
-      password: hashedPassword,
-    });
-
-    const affectedRows = await userRepository.save(user);
-
-    res.json({
-      data: affectedRows,
-    });
-  }
+  res.json({
+    data: affectedRows,
+  });
 });
 
 export default router;

@@ -1,19 +1,34 @@
 import express, { Request, Response } from "express";
 import Joi from "joi";
 
+import verifyTokenUtils, { RequestWithUser } from "../utils/verifyToken";
 import { validateBookmark } from "../utils/validateSchema";
 import { dataSource } from "../config/dataSource";
 import { Bookmark } from "../entity/bookmark.entity";
+import { User } from "../entity/user.entity";
 
 const router = express.Router();
 
-router.get("/", async (req: Request, res: Response) => {
-  const bookmarks = await dataSource.getRepository(Bookmark).find();
+router.get(
+  "/",
+  verifyTokenUtils,
+  async (req: RequestWithUser, res: Response) => {
+    const bookmarks = await dataSource.getRepository(Bookmark).find();
+    let user;
 
-  res.json({
-    data: bookmarks,
-  });
-});
+    if (req.user) {
+      user = await dataSource.getRepository(User).findBy({
+        id: req.user.userId,
+      });
+    }
+
+    console.log(user);
+
+    res.json({
+      data: bookmarks,
+    });
+  },
+);
 
 router.get("/:id", async (req: Request, res: Response) => {
   const { id } = req.params;
