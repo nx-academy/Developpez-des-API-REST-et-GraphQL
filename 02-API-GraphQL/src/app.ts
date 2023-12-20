@@ -1,49 +1,23 @@
-import { ApolloServer } from '@apollo/server'
-import { startStandaloneServer } from "@apollo/server/standalone"
+import { createServer } from 'node:http'
+import { createYoga, createSchema } from 'graphql-yoga'
 
-const typeDefs = `#graphql
-  type Book {
-    title: String
-    author: String
-  }
-
-  type Query {
-    books: [Book]
-  }
-`
-
-type Book = {
-  title: string
-  author: string
-}
-
-const books: Book[] = [
-  {
-    title: 'The Awakening',
-    author: 'Kate Chopin',
-  },
-  {
-    title: 'City of Glass',
-    author: 'Paul Auster',
-  }
-]
-
-const resolvers = {
-  Query: {
-    books: () => books
-  }
-}
-
-const server = new ApolloServer({
-  typeDefs,
-  resolvers
-})
-
-startStandaloneServer(server, {
-  listen: {
-    port: 3010
+const schema = createSchema({
+  typeDefs:`
+    type Query {
+      hello: String
+    }
+  `,
+  resolvers: {
+    Query: {
+      hello: () => 'world'
+    }
   }
 })
-  .then(({ url }) => console.log(`Magic happens at: ${url}`))
-  .catch((err) => console.log(`Something went wrong when lauching server: ${err}`))
 
+const yoga = createYoga({ schema })
+
+const server = createServer(yoga)
+
+server.listen(3010, () => {
+  console.log(`Maggic happens at localhost:3010`)
+})
