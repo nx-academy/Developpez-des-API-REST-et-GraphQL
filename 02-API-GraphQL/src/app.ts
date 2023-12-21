@@ -1,5 +1,7 @@
 import { ApolloServer } from 'apollo-server'
 
+import { schema } from './schema'
+
 const typeDefs = `#graphql
   type Book {
     title: String
@@ -34,7 +36,7 @@ const resolvers = {
 }
 
 const server = new ApolloServer({
-  typeDefs,
+  schema,
   resolvers
 })
 
