@@ -26,6 +26,10 @@ const books: Book[] = [
   {
     title: "City of Glass",
     author: "Paul Auster"
+  },
+  {
+    title: "Hello, foo",
+    author: "Yeah"
   }
 ]
 
