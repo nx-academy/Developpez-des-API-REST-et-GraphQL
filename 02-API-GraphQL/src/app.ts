@@ -1,5 +1,12 @@
 import { ApolloServer, gql } from 'apollo-server'
 
+import { dataSource } from "./config/dataSource"
+
+dataSource
+  .initialize()
+  .then(() => console.log("Database connected"))
+  .catch((err) => console.log("Failed to connect to database", err));
+
 const typeDefs = gql`
   type Book {
     title: String

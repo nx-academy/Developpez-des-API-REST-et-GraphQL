@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, Entity } from "typeorm"
+import { Entity, Column, PrimaryGeneratedColumn } from "typeorm"
 
 @Entity()
 export class Bookmark {
