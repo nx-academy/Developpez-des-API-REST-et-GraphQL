@@ -10,4 +10,5 @@
 - https://www.digitalocean.com/community/tutorials/nodejs-jwt-expressjs
 - https://blog.logrocket.com/configuring-nodemon-with-typescript/
 - https://stackoverflow.com/questions/62154016/docker-on-wsl2-very-slow
+- https://softchris.github.io/pages/graphql-apollo.html#resources
 

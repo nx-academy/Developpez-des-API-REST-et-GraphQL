@@ -23,6 +23,10 @@ const typeDefs = gql`
   type Query {
     bookmarks: [Bookmark]
   }
+
+  type Mutation {
+    addBookmark(name: String, description: String): Boolean
+  }
 `
 
 
@@ -32,6 +36,19 @@ const resolvers = {
       const data = await dataSource.getRepository(Bookmark).find()
 
       console.log(data)
+    }
+  },
+  Mutation: {
+    addBookmark: (root: any, args: any, context: any) => {
+      console.log("=====")
+      console.log(root)
+      console.log("=====")
+      console.log(args)
+      console.log("=====")
+      console.log(context)
+      console.log("=====")
+
+      return true
     }
   }
 }
