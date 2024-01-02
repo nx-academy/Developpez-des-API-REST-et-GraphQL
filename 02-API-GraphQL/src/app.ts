@@ -1,6 +1,7 @@
 import { ApolloServer, gql } from 'apollo-server'
 
 import { dataSource } from "./config/dataSource"
+import { Bookmark } from "./entity/bookmark.entity"
 
 dataSource
   .initialize()
@@ -8,9 +9,10 @@ dataSource
   .catch((err) => console.log("Failed to connect to database", err));
 
 const typeDefs = gql`
-  type Book {
-    title: String
-    author: Author
+  type Bookmark {
+    id: Int
+    name: String
+    description: String 
   }
 
   type Author {
@@ -19,47 +21,18 @@ const typeDefs = gql`
   }
 
   type Query {
-    books: [Book]
+    bookmarks: [Bookmark]
   }
 `
 
-type Author = {
-  id: number
-  name: string
-}
-
-type Book = {
-  title: string
-  author: Author
-}
-
-const books: Book[] = [
-  {
-    title: "The Awakening",
-    author: {
-      id: 1,
-      name: "toto"
-    }
-  },
-  {
-    title: "City of Glass",
-    author: {
-      id: 2,
-      name: "tata"
-    }
-  },
-  {
-    title: "Hello, foo",
-    author: {
-      id: 3,
-      name: "titi"
-    }
-  }
-]
 
 const resolvers = {
   Query: {
-    books: () => books
+    bookmarks: async () => {
+      const data = await dataSource.getRepository(Bookmark).find()
+
+      console.log(data)
+    }
   }
 }
 
