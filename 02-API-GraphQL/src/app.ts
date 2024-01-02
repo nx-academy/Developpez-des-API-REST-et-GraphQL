@@ -1,11 +1,14 @@
-import { ApolloServer } from 'apollo-server'
+import { ApolloServer, gql } from 'apollo-server'
 
-import { schema } from './schema'
-
-const typeDefs = `#graphql
+const typeDefs = gql`
   type Book {
     title: String
-    author: String
+    author: Author
+  }
+
+  type Author {
+    id: Int
+    name: String
   }
 
   type Query {
@@ -13,23 +16,37 @@ const typeDefs = `#graphql
   }
 `
 
+type Author = {
+  id: number
+  name: string
+}
+
 type Book = {
   title: string
-  author: string
+  author: Author
 }
 
 const books: Book[] = [
   {
     title: "The Awakening",
-    author: "Kate Chopin"
+    author: {
+      id: 1,
+      name: "toto"
+    }
   },
   {
     title: "City of Glass",
-    author: "Paul Auster"
+    author: {
+      id: 2,
+      name: "tata"
+    }
   },
   {
     title: "Hello, foo",
-    author: "Yeah"
+    author: {
+      id: 3,
+      name: "titi"
+    }
   }
 ]
 
